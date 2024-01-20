@@ -18,6 +18,26 @@ document.addEventListener('DOMContentLoaded', () => {
     let isGameOver = false
     let currentPlayer = 'user'
     const width = 10
+    let gameMode = ""
+    let playerNum = 0
+    let ready = false
+    let enemyReady = false
+    let allShipsPlaced = false
+    let shotFired = -1
+
+    const socket = io();
+
+    // get player number
+    // player 0 will always be user, player 1 will be enemy - todo change labels 
+    socket.on('player-number', num => {
+        if (num == -1) {
+            infoDisplay.innerHTML = "srry server full"
+        }
+        else {
+            playerNum = parseInt(num)
+            if (playerNum == 1) currentPlayer = "enemy"
+        }
+    })
   
     //Create Board
     function createBoard(grid, squares) {
